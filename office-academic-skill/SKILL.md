@@ -1,6 +1,6 @@
 ---
 name: office-academic-skill
-description: Chinese-first academic Word and PowerPoint workflow for paper reading reports, thesis or group-meeting PPTs, editable DOCX/PPTX generation, Office file inspection, template matching, speaker notes, and layout quality checks. Use when the user asks to read papers into Word reports, create or polish PPT/PPTX, convert paper/thesis materials into slides, edit DOCX/PPTX, inspect Office files, or produce Chinese academic presentation/report deliverables. Preserve English paper titles, formulas, variable names, software commands, and references.
+description: Chinese-first academic Word and PowerPoint workflow for paper reading reports, thesis or group-meeting PPTs, editable DOCX/PPTX generation, Office file inspection, template matching, speaker notes, native slide transitions, click-by-click element animations, and layout quality checks. Use when the user asks to read papers into Word reports, create or polish PPT/PPTX, convert paper/thesis materials into slides, edit DOCX/PPTX, inspect Office files, or produce Chinese academic presentation/report deliverables. Preserve English paper titles, formulas, variable names, software commands, and references.
 ---
 
 # Office Academic Skill
@@ -12,7 +12,7 @@ Use this skill for:
 - Word reports from PDFs, DOCX files, arXiv papers, journal articles, theses, and manuscripts.
 - Chinese-first academic PPTs for literature reports, group meetings, courses, opening/midterm/defense presentations, and project presentations.
 - Editable `.docx` and `.pptx` generation, inspection, repair, and style preservation.
-- PPT template matching, native slide editing, speaker notes, and visual quality checks.
+- PPT template matching, native slide editing, speaker notes, native slide transitions, click-by-click object entrance animations, and visual quality checks.
 
 Do not use this skill for pure manuscript prose drafting without a Word/PPT deliverable; use `research-writing-skill` instead. Do not use it for MATLAB, Python analysis, statistics, or plotting unless those outputs are being inserted into Word/PPT.
 
@@ -111,6 +111,31 @@ Useful bundled resources:
 - `references/thesis-defense-pptx/scripts/` for thesis context extraction, template cloning, slide export, contact sheets, text scans, and overflow inspection.
 - `references/office-pptx/` for OOXML-level PPTX inspection and editing.
 - `references/office-docx/` for OOXML-level DOCX inspection and editing.
+
+## PPT Animation Workflow
+
+Use this workflow whenever the user asks for slide transitions, element animations, click-by-click reveals, or motion polish on an existing PPTX.
+
+1. Read `references/office-pptx/animations.md` before modifying animation XML.
+2. Run a dry inspection first:
+
+   ```bash
+   python references/office-pptx/scripts/add_pptx_motion.py input.pptx --dry-run
+   ```
+
+3. Review each slide's object names and order. Group related content logically; exclude logos, headers, footers, page numbers, watermarks, and decorative chrome by default. Skip cover, section-divider, Q&A, and closing slides for element animation unless requested.
+4. Apply restrained transitions and element entrances to a new output file:
+
+   ```bash
+   python references/office-pptx/scripts/add_pptx_motion.py input.pptx -o output-animated.pptx --transition fade --effect fade --trigger grouped-clicks --clicks-per-slide 2
+   ```
+
+5. Default to Fade transitions (0.4 s), Fade entrances (0.45 s), grouped-clicks, two click groups per content slide, and a 0.12 s stagger. Use `--group-size` when a fixed number of objects should appear per click. Use `--skip-element-slides 1,2,12` to leave cover/divider/closing pages static while retaining their slide transitions.
+6. Existing transition and timing XML is preserved by default. Never use `--replace-existing` unless the user explicitly asks to replace existing animation settings.
+7. If a slide is a single full-slide picture, the script applies the transition but skips element animation. State clearly that individual elements cannot be animated inside a flattened image. Use an editable source deck or rebuild the affected slide with separate native objects when true per-element animation is required.
+8. After generation, run `--dry-run` on the output and open it in desktop Microsoft PowerPoint to verify actual playback and click sequence. XML validity alone does not prove playback compatibility.
+
+Use `--allow-full-slide-image` only when the user explicitly wants the entire flattened slide image to animate as one object; do not call this element animation. Use `--overwrite-output` only when replacing an existing output file is intended. Automatic slide advance is off by default.
 
 ## Quality Gate
 

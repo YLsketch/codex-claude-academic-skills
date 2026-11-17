@@ -18,7 +18,7 @@
 | 技能 | 核心用途 | 典型场景 |
 |------|----------|----------|
 | [`research-writing-skill`](#1-research-writing-skill--论文写作) | 论文章节撰写、修改、润色 | 论文正文、摘要、引言、方法、实验、回复审稿人 |
-| [`office-academic-skill`](#2-office-academic-skill--学术-office-文档) | 学术 Word/PPT 生成与编辑 | 文献阅读报告、组会 PPT、开题/中期/答辩 PPT |
+| [`office-academic-skill`](#2-office-academic-skill--学术-office-文档) | 学术 Word/PPT 生成与编辑、原生动画优化 | 文献阅读报告、组会 PPT、开题/中期/答辩 PPT、演示动画 |
 | [`scientific-toolkit-skill`](#3-scientific-toolkit-skill--科研计算工具箱) | 科研计算与数据分析 | MATLAB/Python 仿真、信号处理、统计、机器学习、论文配图 |
 
 三个 skill 设计为**互补协作**关系，可在同一任务中联动调用：
@@ -86,6 +86,10 @@
 - 文献报告 PPT、组会 PPT、课程报告 PPT
 - 开题/中期/答辩 PPT（模板匹配、母版克隆）
 - 科研展示 PPT、科普 PPT
+- 原生页面切换动画：Fade、Push、Wipe、Split、Dissolve 等
+- 页内元素入场动画：标题、文字、图片、图表、表格和流程图
+- 点击逐组展示；保留原有动画设置，输出独立动画版 PPTX
+- 自动识别整页图片式幻灯片，不把整页图片淡入误报为元素动画
 
 ### PPT 质量规则
 
@@ -99,8 +103,8 @@
 | 路径 | 内容 |
 |------|------|
 | `office-docx/` | OOXML 级别 DOCX 检查与编辑，含 XSD 模式库 |
-| `office-pptx/` | OOXML 级别 PPTX 检查与编辑 |
-| `thesis-defense-pptx/scripts/` | 论文上下文提取、模板克隆、幻灯片导出、溢出检查等工具脚本 |
+| `office-pptx/` | OOXML 级别 PPTX 检查、编辑与原生动画 |
+| `office-pptx/animations.md` | 页面切换、元素动画、点击分组、兼容性与 QA 指南 |\n| `office-pptx/scripts/add_pptx_motion.py` | 检查对象并写入原生 OOXML 切换与入场动画 |\n| `thesis-defense-pptx/scripts/` | 论文上下文提取、模板克隆、幻灯片导出、溢出检查等工具脚本 |
 | `report-structure.md` | 默认文献报告结构与证据标注格式 |
 
 ---
@@ -227,7 +231,7 @@ skill-name/
 | [K-Dense-AI/scientific-agent-skills](https://github.com/K-Dense-AI/scientific-agent-skills) | 134+ 科研 Agent Skill 集合，涵盖 MATLAB/Octave、Matplotlib、信号处理、科学可视化等模块 |
 | [tfriedel/claude-office-skills](https://github.com/tfriedel/claude-office-skills) | 系统化的 Office 文档处理 Skill 集，包含 docx/、pptx/、pdf/、xlsx/ 四个子模块，结构清晰 |
 | [Gabberflast/academic-pptx-skill](https://github.com/Gabberflast/academic-pptx-skill) | 专注学术 PPT 规范：结论式标题、每页一个核心观点、图表引用标准与参考文献页 |
-| [SNL-UCSB/paper-writing-skill](https://github.com/SNL-UCSB/paper-writing-skill) | 编码了经过验证的论文写作原则，涵盖论证逻辑、图表支撑、初稿重构与压缩 |
+| [yinzige/pptx-motion-lite](https://github.com/yinzige/pptx-motion-lite) | 通过 PowerPoint OOXML 写入原生切换与入场动画；本 skill 增加了整页图片检测、既有动画保护和演示文稿顺序处理 |\n| [SNL-UCSB/paper-writing-skill](https://github.com/SNL-UCSB/paper-writing-skill) | 编码了经过验证的论文写作原则，涵盖论证逻辑、图表支撑、初稿重构与压缩 |
 
 ---
 
